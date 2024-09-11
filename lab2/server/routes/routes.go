@@ -11,6 +11,7 @@ func Router() *chi.Mux {
 	r.Use(middleware.RequestID)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+	r.Use(enableCORS)
 
 	r.Post("/signup", controllers.Signup())
 	r.Post("/login", controllers.Login())

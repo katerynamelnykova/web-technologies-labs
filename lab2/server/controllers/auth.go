@@ -128,17 +128,25 @@ func Login() http.HandlerFunc {
 			return
 		}
 
-		http.SetCookie(w, &http.Cookie{
-			Name:     "token",
-			Value:    tokenString,
-			Expires:  expirationTime,
-			Path:     "/",
-			Domain:   "localhost:8080",
-			HttpOnly: false,
-			SameSite: http.SameSiteLaxMode,
-		})
+		// http.SetCookie(w, &http.Cookie{
+		// 	Name:     "token",
+		// 	Value:    tokenString,
+		// 	Expires:  expirationTime,
+		// 	Path:     "/",
+		// 	Domain:   "localhost:5500",
+		// 	HttpOnly: false,
+		// 	SameSite: http.SameSiteNoneMode,
+		// 	Secure:   true,
+		// })
+
+		response := map[string]any{
+			"token": tokenString,
+			"admin": existingUser.IsAdmin,
+			"email": existingUser.Email,
+		}
 
 		w.WriteHeader(200)
+		json.NewEncoder(w).Encode(response)
 	}
 }
 
@@ -149,9 +157,10 @@ func Logout() http.HandlerFunc {
 			Value:    "",
 			Expires:  time.Now().Add(-50 * time.Hour),
 			Path:     "/",
-			Domain:   "localhost:8080",
+			Domain:   "localhost:5500",
 			HttpOnly: false,
-			SameSite: http.SameSiteLaxMode,
+			SameSite: http.SameSiteNoneMode,
+			Secure:   true,
 		})
 
 		w.WriteHeader(200)
