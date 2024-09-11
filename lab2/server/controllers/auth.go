@@ -128,21 +128,20 @@ func Login() http.HandlerFunc {
 			return
 		}
 
-		// http.SetCookie(w, &http.Cookie{
-		// 	Name:     "token",
-		// 	Value:    tokenString,
-		// 	Expires:  expirationTime,
-		// 	Path:     "/",
-		// 	Domain:   "localhost:5500",
-		// 	HttpOnly: false,
-		// 	SameSite: http.SameSiteNoneMode,
-		// 	Secure:   true,
-		// })
+		http.SetCookie(w, &http.Cookie{
+			Name:     "token",
+			Value:    tokenString,
+			Expires:  expirationTime,
+			Path:     "/",
+			Domain:   "localhost:5500",
+			HttpOnly: false,
+			SameSite: http.SameSiteNoneMode,
+			Secure:   true,
+		})
 
 		response := map[string]any{
 			"token": tokenString,
 			"admin": existingUser.IsAdmin,
-			"email": existingUser.Email,
 		}
 
 		w.WriteHeader(200)
@@ -164,5 +163,45 @@ func Logout() http.HandlerFunc {
 		})
 
 		w.WriteHeader(200)
+	}
+}
+
+func validateJWT(tokenString string) (*models.Claims, error) {
+	claims := &models.Claims{}
+
+	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+
+	if err != nil {
+		if err == jwt.ErrSignatureInvalid {
+			return nil, fmt.Errorf("invalid token signature")
+		}
+		return nil, fmt.Errorf("error parsing token: %v", err)
+	}
+
+	if !token.Valid {
+		return nil, fmt.Errorf("token is invalid")
+	}
+
+	return claims, nil
+}
+
+func AuthHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		tokenString := r.Header.Get("Authorization")
+		if tokenString == "" {
+			http.Error(w, "Token not found", http.StatusUnauthorized)
+			return
+		}
+
+		claims, err := validateJWT(tokenString)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusUnauthorized)
+			return
+		}
+
+		w.WriteHeader(200)
+		json.NewEncoder(w).Encode(claims)
 	}
 }

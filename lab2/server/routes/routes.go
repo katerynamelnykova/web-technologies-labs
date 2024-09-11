@@ -16,6 +16,7 @@ func Router() *chi.Mux {
 	r.Post("/signup", controllers.Signup())
 	r.Post("/login", controllers.Login())
 	r.Get("/logout", controllers.Logout())
+	r.Get("/auth", controllers.AuthHandler())
 
 	return r
 }

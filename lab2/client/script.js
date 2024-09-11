@@ -2,11 +2,33 @@
 const signupUrl = 'http://localhost:3000/signup';
 const loginUrl = 'http://localhost:3000/login';
 const logoutUrl = 'http://localhost:3000/logout';
+const authUrl = 'http://localhost:3000/auth'
 
 // Get form elements
 const signupForm = document.getElementById('signup');
 const loginForm = document.getElementById('login');
 const logoutForm = document.getElementById('logoutForm');
+
+async function setEmail() {
+    try {
+        const response = await fetch(authUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token"),
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Error: ' + response.statusText);
+        }
+
+        const data = await response.json();
+        localStorage.setItem("email", data.sub);
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+    }
+}
 
 // Sign Up event listener
 signupForm.addEventListener('submit', function (event) {
@@ -31,46 +53,44 @@ signupForm.addEventListener('submit', function (event) {
     })
     .catch(error => {
         console.error('Error:', error);
-        alert("Somethin went wrong. Try again please");
+        alert("Something went wrong. Try again please");
     });
 });
 
-
-loginForm.addEventListener('submit', function (event) {
+// Login event listener
+loginForm.addEventListener('submit', async function (event) {
     event.preventDefault();
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
 
-    fetch(loginUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ "email": email, "password": password })
-    })
-    .then(response => {
+    try {
+        const response = await fetch(loginUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({ "email": email, "password": password })
+        });
+
         if (!response.ok) {
-            return response.json().then(err => {
-                throw new Error(err.message || 'Login failed');
-            });
+            const err = await response.json();
+            throw new Error(err.message || 'Login failed');
         }
-        return response.json();
-    })
-    .then(data => {
+
+        const data = await response.json();
         alert('Login successful!');
         localStorage.setItem('token', data.token);
         localStorage.setItem('admin', data.admin);
-        localStorage.setItem('email', data.email);
+        await setEmail();
         location.reload();
-    })
-    .catch(error => {
+    } catch (error) {
         console.error('Error:', error);
         alert("Щось пішло не так. Спробуйте ще раз");
-    });
+    }
 });
 
-
+// Logout event listener
 document.getElementById('logoutButton').addEventListener('click', function () {
     if(localStorage.getItem("token")) {
         localStorage.removeItem('token');
@@ -84,7 +104,7 @@ document.getElementById('logoutButton').addEventListener('click', function () {
     }
 });
 
-
+// DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', function() {
     const email = localStorage.getItem('email');
     const is_admin = localStorage.getItem('admin');
@@ -93,12 +113,12 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('logoutForm').style.display = 'block'; // Показати форму logout
         document.getElementById('emailDisplay').textContent = `Logged in as: ${email}`;
     }
-    console.log(is_admin)
-    if(is_admin==="true") {
+    if(is_admin === "true") {
         document.getElementById('adminButton').style.display = 'block';
     }
 });
 
+// Admin button event listener
 document.getElementById('adminButton').addEventListener('click', function () {
     const duration = 15 * 1000,
     animationEnd = Date.now() + duration,
@@ -112,23 +132,23 @@ document.getElementById('adminButton').addEventListener('click', function () {
         const timeLeft = animationEnd - Date.now();
     
         if (timeLeft <= 0) {
-        return clearInterval(interval);
+            return clearInterval(interval);
         }
     
         const particleCount = 50 * (timeLeft / duration);
     
         // since particles fall down, start a bit higher than random
         confetti(
-        Object.assign({}, defaults, {
-            particleCount,
-            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-        })
+            Object.assign({}, defaults, {
+                particleCount,
+                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+            })
         );
         confetti(
-        Object.assign({}, defaults, {
-            particleCount,
-            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-        })
+            Object.assign({}, defaults, {
+                particleCount,
+                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+            })
         );
     }, 250);
 });
