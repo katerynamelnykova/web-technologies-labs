@@ -1,0 +1,218 @@
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: rgb(0, 0, 0);
+    background: linear-gradient(90deg, #feb47b, #95b3ea, #a6f0eb);
+}
+
+section {
+    width: auto;
+    min-height: 100%;
+    height: calc(100vh - 11rem);
+    padding: 1rem;
+    padding-top: 10rem;
+}
+
+a, a:focus {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    color: rgb(13, 13, 13);
+}
+
+nav ul {
+    list-style: none;
+    font-size: 2rem;
+    display: flex;
+    justify-content: flex-start;
+    padding: 30px;
+    margin: auto;
+    background: rgba(10, 10, 10, 0.33);
+}
+
+label {
+    font-size: 1.6rem;
+    padding: 1.5rem 0 0.3rem;
+}
+
+input[type="text"] {
+    width: 15rem;
+    height: 2.5rem;
+}
+
+input[type="text"], 
+textarea {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    position: relative;
+    width: 100%;
+    height: 30px;
+    font-size: large;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    border-color: #ecefeb;
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(175, 178, 179, 0.33);;
+}
+
+textarea {
+    width: 50rem;
+    height: 10rem;
+    resize: none;
+    width: 100%
+}
+
+button {
+    padding: 0;
+    border-radius: 4px;
+    background-color: black;
+    background: rgba(32, 32, 32, 0.33);
+    background-color: black;
+}
+
+button:hover {
+    background-color: rgb(242, 242, 242);
+}
+
+button[type="submit"] {
+    font-size: 1.4rem;
+    color: rgb(255, 255, 255);
+    width: 9rem;
+    height: 4rem;
+    margin: 2rem 0 0;
+    margin-left: 40%;
+    background-color: black;
+}
+
+button[type="submit"]:hover {
+    color: rgb(242, 242, 242)
+}
+
+.icon-box {
+    padding: 0.5rem;
+}
+
+.nav-list {
+    padding-left: 2.5rem;
+}    
+
+.container {
+    text-align: center;
+    font-size: large;
+}
+
+#cat {
+    padding-top: 20%;
+}
+
+.form-box {
+    background: rgba(178, 182, 183, 0.33);;
+    padding: 0 2rem 2rem; 
+    margin-bottom: 2rem;
+    border-radius: 10px;
+}   
+
+.list-box {
+    padding: 2rem;
+    display: flex;
+}
+
+.add-page-box {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    justify-content: center;
+    margin-left: 30%;
+}
+
+.heading-list {
+    font-size: 5rem;
+    font-weight: 300;
+}
+
+.list-label {
+    font-size: 2.5rem;
+    font-weight: 400;
+    width: 100%;
+    color: black;
+    padding: 0;
+}
+
+img.icons {
+    width: 20px;
+    filter: invert(83%) sepia(18%) saturate(183%) hue-rotate(188deg) brightness(108%) contrast(109%);
+}
+
+.form-left-side,
+.form-right-side {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-left-side {
+    flex-basis: 100%;
+}
+
+.form-right-side {
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.container {
+    width: 500px;
+    margin: 2rem auto 2rem;
+    text-align: center;
+}
+
+h1 {
+    color: rgb(51, 48, 48);
+    padding-left: 4rem;
+}
+
+.box {
+    background-color: white;
+    padding: 1rem 2rem;
+    box-shadow: 10px 10px 30px rgb(218, 215, 215);
+}
+
+button {
+    background-color: rgb(255, 255, 255);
+    border: 3px;
+    padding: 1rem;
+    font-size: medium;
+    border-color: rgb(0, 0, 0);
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: fit-content;
+}
+
+.centered-div {
+    display: flex;
+    justify-content: center; /* Вирівнювання по горизонталі */
+    align-items: center; /* Вирівнювання по вертикалі */
+    margin: 1rem;
+}
+
+.edit-form {
+    background-color: transparent;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
