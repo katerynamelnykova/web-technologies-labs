@@ -29,7 +29,7 @@ This repository contains the lab assignments for the **Web Technologies** course
 
 ### Lab 3: Telegram Bot with ChatGPT Integration
 - **Objective**: Create a Telegram bot with a menu system and ChatGPT integration for handling queries.
-- **Technologies**: Python, Telegram API, ChatGPT API, PythonAnywhere (for deployment)
+- **Technologies**: Python, Telegram API, Groq API, PythonAnywhere (for deployment)
 - **Features**: 
   - Menu for displaying user information (name, group), contact details.
   - Integration with Groq to process user prompts.
